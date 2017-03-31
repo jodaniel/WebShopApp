@@ -1,0 +1,40 @@
+﻿@using WMarket.Models
+@{
+    ViewBag.Title = "Registro";
+    
+}
+
+@model WMarket.Models.Usuario
+
+
+@{
+
+    using (Html.BeginForm("Login", "Registro", FormMethod.Post))
+    {
+        <h2>Registro</h2>
+<form method="POST">
+    <label>Nombre Completo: </label>
+    @Html.TextBoxFor(m => m.NombreCompleto)<br />
+    <label>Usuario</label>
+    @Html.TextBoxFor(m => m.User)<br />
+    <label>Contraseña</label>
+    @Html.TextBoxFor(m => m.Contrasena)<br />
+    <label>Teléfono</label>
+    @Html.TextBoxFor(m => m.Telefono)<br />
+    <label>Correo</label>
+    @Html.TextBoxFor(m => m.Correo) <br />
+    <label>Direccion</label>
+    @Html.TextBoxFor(m => m.Direccion)<br />
+    <label>Tipo de Cuenta</label>
+    @Html.DropDownListFor(m => m.Admin,
+        new List<SelectListItem>
+        {
+            new SelectListItem {Value = "0", Text = "Comprador" },
+            new SelectListItem {Value = "0", Text = "Vendedor" }
+        }) <br />
+    
+    <br />
+    <input id="btnRegistro" type="submit" value="Registrarse" />
+</form>
+    }
+}
