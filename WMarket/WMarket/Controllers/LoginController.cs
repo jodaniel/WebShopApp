@@ -21,14 +21,18 @@ namespace WMarket.Controllers
             return View();
         }
 
-        /*[HttpPost]
-        public ActionResult ]*/
-
-
-        public void Neo4jConn()
+        [HttpPost]
+        public void Registrar( Usuario nUser)
         {
-            var cliente = new GraphClient(new Uri("http://localhost:7474/db/data"), "neo4j", "neo4j");
+            var cliente = new GraphClient(new Uri("http://localhost:7474/db/data"), "neo4j", "test");
             cliente.Connect();
+
+            cliente.Cypher
+                .Create("(user:User {nUser})")
+                .WithParam("nUser", nUser)
+                .ExecuteWithoutResults();
+
+
         }
 
         public Usuario GeneraUsuario()
