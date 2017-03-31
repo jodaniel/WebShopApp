@@ -9,8 +9,8 @@ namespace WMarket.Models
     public class Usuario
     {
         #region Atributos
-
-        int id;
+        public static int nextId = 1;
+        int id = nextId++;
         String nombreCompleto;
         String usuario;
         String contrasena;
@@ -79,9 +79,9 @@ namespace WMarket.Models
         public Usuario()
         { }
 
-        public Usuario(int nId, String nNombreCompleto, String nUser, String nContrasena, String nTelefono, String nCorreo, String nDireccion, Boolean nAdmin)
+        public Usuario(String nNombreCompleto, String nUser, String nContrasena, String nTelefono, String nCorreo, String nDireccion, Boolean nAdmin)
         {
-            Id = nId;
+          
             NombreCompleto = nNombreCompleto;
             User = nUser;
             Contrasena = nContrasena;
@@ -89,6 +89,14 @@ namespace WMarket.Models
             Correo = nCorreo;
             Direccion = nDireccion;
             Admin = nAdmin;
+            nextId++;
+        }
+
+        public Usuario(String nUser, String nPassword)
+        {
+            User = nUser;
+            Contrasena = nPassword;
+
         }
 
         #endregion

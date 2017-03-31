@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "ErrorLogin";
+}
+
+@{
+    using (Html.BeginForm("Index", "Login", FormMethod.Post))
+    {
+        <h2>Error</h2><br />
+        <label>Ocurrió un error al conectarse con la base de datos</label><br />
+        <input type="submit" value="Volver" />
+    }
+}
+
+
