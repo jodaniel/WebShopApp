@@ -48,6 +48,10 @@
       <HintPath>..\packages\CassandraCSharpDriver.3.2.1\lib\net45\Cassandra.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Devart.Data, Version=5.0.1654.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
+    <Reference Include="Devart.Data.Linq, Version=4.6.1199.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
+    <Reference Include="Devart.Data.MySql, Version=8.8.862.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
+    <Reference Include="Devart.Data.MySql.Linq, Version=4.6.1199.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
     <Reference Include="LZ4, Version=1.0.10.93, Culture=neutral, PublicKeyToken=62e1b5ec1eec9bdd, processorArchitecture=MSIL">
       <HintPath>..\packages\lz4net.1.0.10.93\lib\net4-client\LZ4.dll</HintPath>
       <Private>True</Private>
@@ -203,6 +207,11 @@
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="WebMarket.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebMarket.lqml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -246,6 +255,16 @@
     <Content Include="Views\Login\ErrorRegistro.cshtml" />
     <Content Include="Views\Shop\Index.cshtml" />
     <Content Include="Views\Login\ErrorLogIn.cshtml" />
+    <Content Include="WebMarket.Diagram1.view">
+      <DependentUpon>WebMarket.lqml</DependentUpon>
+    </Content>
+    <Content Include="WebMarket.edps">
+      <DependentUpon>WebMarket.lqml</DependentUpon>
+    </Content>
+    <Content Include="WebMarket.lqml">
+      <Generator>DevartLinqToSqlGenerator</Generator>
+      <LastGenOutput>WebMarket.Designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MySql.Data.MySqlClient;
 using WMarket.Models;
+using WebmarketContext;
 
 namespace WMarket.Controllers
 {
@@ -13,28 +13,23 @@ namespace WMarket.Controllers
         // GET: Shop
         public ActionResult Index()
         {
-            MySql.Data.MySqlClient.MySqlConnection conn;
-            string myConnectionString;
+            WebmarketDataContext context = new WebmarketDataContext();
+            List<Models.Producto> listaProductos = new List<Models.Producto>();
 
-            myConnectionString = "server=127.0.0.1;port=3307;uid=shop;" +
-                "pwd=shop123;database=webmarket;";
+            var prods = from pdt in context.Productos
+                        where pdt.Cantidad > 0
+                        select pdt;
 
-            try
+            foreach(var prod in prods)
             {
-                conn = new MySql.Data.MySqlClient.MySqlConnection();
-                conn.ConnectionString = myConnectionString;
-                conn.Open();
+                Models.Producto producto = new Models.Producto(prod.Id, prod.IdProveedor, prod.Nombre, prod.Descripcion, prod.Marca, prod.Cantidad);
+                listaProductos.Add(producto);
 
-                List<Producto> productos = new List<Producto>();
-                product
-
+                producto = null;
 
             }
-            catch (MySql.Data.MySqlClient.MySqlException ex)
-            {
-                
-            }
-            return View();
+            
+            return View(listaProductos);
         }
     }
 }

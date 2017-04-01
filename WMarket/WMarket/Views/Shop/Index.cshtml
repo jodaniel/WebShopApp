@@ -1,7 +1,20 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
-<h2>Tiends en Linea!</h2>
+@model List<WMarket.Models.Producto>
+
+<h2>Tienda en Linea!</h2>
+
+<div id="Productos">
+    @foreach (var item in Model)
+    {
+        <label>@item.Nombre</label>
+        <textarea>@item.Descripcion</textarea>
+    }
+</div>
+
+
+
+
 
