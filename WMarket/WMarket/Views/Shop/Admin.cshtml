@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Admin";
+}
+
+@model Tuple<List<WMarket.Models.Producto>, WMarket.Models.Usuario>
+
+<h2>Tienda en Linea!</h2>
+<h4>Bienvenido @Model.Item2.NombreCompleto</h4>
+
+<div id="Opciones">
+    @{
+
+        using (Html.BeginForm("Agregar", "Shop", FormMethod.Post))
+        {
+            <form method="POST">
+                <input type="submit" value="Agregar nuevo" />
+            </form>
+        }
+    }
+
+</div>
+
+<div id="Productos">
+    @foreach (var item in Model.Item1)
+    {
+       
+            using (Html.BeginForm("Detalles", "Shop", FormMethod.Post))
+            {
+                <label>@item.Nombre</label><br />
+                <label>Cantidad: @item.Cantidad</label> <br />
+                <form method="POST">
+                    <input type="submit" value="Detalles" />
+                </form>
+            }
+        }
+</div>

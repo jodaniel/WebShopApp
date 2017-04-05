@@ -1,18 +1,34 @@
-﻿@{
+﻿@using WMarket.Models
+@{
     ViewBag.Title = "Index";
+    List<Producto> listaProd = ViewData["ListaProductos"] as List<Producto>;
+    Usuario nUser = ViewData["Usuario"] as Usuario;
 }
 
-@model List<WMarket.Models.Producto>
-
+@model WMarket.Models.Producto
 <h2>Tienda en Linea!</h2>
+<h4>Bienvenido @nUser.NombreCompleto</h4>
 
 <div id="Productos">
-    @foreach (var item in Model)
+    @foreach (var item in listaProd)
     {
-        <label>@item.Nombre</label>
-        <textarea>@item.Descripcion</textarea>
+        <label>@item.Nombre</label><br />
+        <label>Cantidad: @item.Cantidad</label> <br />
+        using (Html.BeginForm("DetallesProd", "Shop", FormMethod.Post))
+        {
+
+                <form method="POST">
+                    @Html.ActionLink("Shop", "DetallesProd", item)
+                </form>
+        }
     }
 </div>
+
+
+
+
+
+
 
 
 

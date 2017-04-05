@@ -55,7 +55,15 @@ namespace WMarket.Controllers
                         aCookie.Expires = DateTime.Now.AddDays(1);
                         Response.Cookies.Add(aCookie);
 
-                        return RedirectToAction("Index", "Shop");
+                        if(userResult.First().Admin == true)
+                        {
+                            return RedirectToAction("Admin", "Shop", userResult.First());
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Shop", userResult.First());
+                        }
+                        
                     }
                     else
                     {

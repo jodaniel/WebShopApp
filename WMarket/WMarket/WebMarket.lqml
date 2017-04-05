@@ -2,14 +2,15 @@
 <Database Name="webmarket" EntityNamespace="WebmarketContext" ContextNamespace="WebmarketContext" Class="WebmarketDataContext" xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" ed:Guid="cf107551-2827-4634-9dd7-930d1661a542" Provider="Devart.Data.MySql.Linq.Provider.MySqlDataProvider, Devart.Data.MySql.Linq" Extended="true" xmlns="http://schemas.devart.com/linqconnect/mapping">
   <Connection Mode="ConnectionString" ConnectionString="User Id=shop;Password=shop123;Host=127.0.0.1;Port=3307;Database=webmarket;Persist Security Info=True" Provider="Devart.Data.MySql" />
   <Table Name="webmarket.producto" Member="Productos">
-    <Type Name="Producto" ed:Guid="42962484-9a9f-48fa-8870-4d2d66a73914">
-      <Column Name="id" Member="Id" Type="System.Int32" AutoSync="OnInsert" DbType="INT(11) NOT NULL AUTO_INCREMENT" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="11" ed:ValidateRequired="true" ed:Guid="24c4d7a1-bb43-4eb5-9821-221cc20946d2" />
-      <Column Name="id_proveedor" Member="IdProveedor" Type="System.Int32" DbType="INT(11) NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="11" ed:ValidateRequired="true" ed:Guid="2dbdc332-2ed9-4dd2-9688-4890d3cfc875" />
-      <Column Name="nombre" Member="Nombre" Type="System.String" DbType="VARCHAR(45) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="45" Unicode="true" ed:ValidateMaxLength="45" ed:ValidateRequired="true" ed:Guid="2fe81582-5858-4732-a3f9-f2582b5e4aa6" />
-      <Column Name="descripcion" Member="Descripcion" Type="System.String" DbType="VARCHAR(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="true" ed:Guid="aa73e186-f0b7-44f4-88f5-d3b885ba1fd4" />
-      <Column Name="marca" Member="Marca" Type="System.String" DbType="VARCHAR(45) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="45" Unicode="true" ed:ValidateMaxLength="45" ed:ValidateRequired="true" ed:Guid="503353a5-4d6f-4c7b-a92b-bea1cd7a797e" />
-      <Column Name="precio" Member="Precio" Type="System.String" DbType="VARCHAR(6) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="6" Unicode="true" ed:ValidateMaxLength="6" ed:ValidateRequired="true" ed:Guid="24129248-11b5-494b-bbc6-3b54e3ede447" />
-      <Column Name="cantidad" Member="Cantidad" Type="System.Int32" DbType="INT(11) NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="11" ed:ValidateRequired="true" ed:Guid="bd031df6-923e-4082-b7c8-eb636746b294" />
+    <Type Name="Producto" ed:Guid="e3f3a59e-9559-4f86-9c38-8078587fd43c">
+      <Column Name="id" Member="Id" Type="System.Int32" AutoSync="OnInsert" DbType="INT(11) NOT NULL AUTO_INCREMENT" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="11" ed:ValidateRequired="true" ed:Guid="572cd08d-4cc3-4cd2-8177-d5ca03971727" />
+      <Column Name="id_proveedor" Member="IdProveedor" Type="System.Int32" DbType="INT(11) NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="11" ed:ValidateRequired="true" ed:Guid="568f4fa6-df29-4e54-bbd3-a2d63852e155" />
+      <Column Name="nombre" Member="Nombre" Type="System.String" DbType="VARCHAR(45) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="45" Unicode="true" ed:ValidateMaxLength="45" ed:ValidateRequired="true" ed:Guid="b9065539-9740-40f0-bbc8-e64dedb5f81b" />
+      <Column Name="descripcion" Member="Descripcion" Type="System.String" DbType="VARCHAR(100) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="true" ed:Guid="6316168b-b0d5-4a39-afa3-27befe53861b" />
+      <Column Name="marca" Member="Marca" Type="System.String" DbType="VARCHAR(45) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="45" Unicode="true" ed:ValidateMaxLength="45" ed:ValidateRequired="true" ed:Guid="72237858-0cc1-4f60-a8de-57cdc7c46685" />
+      <Column Name="precio" Member="Precio" Type="System.String" DbType="VARCHAR(6) NOT NULL" CanBeNull="false" UpdateCheck="Never" MaxLength="6" Unicode="true" ed:ValidateMaxLength="6" ed:ValidateRequired="true" ed:Guid="928d7c77-384e-4bd8-87ed-a74b32f2dbe4" />
+      <Column Name="cantidad" Member="Cantidad" Type="System.Int32" DbType="INT(11) NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="11" ed:ValidateRequired="true" ed:Guid="9472b7e8-9b7d-48c5-bb2f-90670e2d95bc" />
+      <Column Name="usuario_creador" Member="UsuarioCreador" Type="System.Int32" DbType="INT(11) NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="11" ed:ValidateRequired="true" ed:Guid="89ca23fe-01d6-4686-93ac-89f316646fcf" />
     </Type>
   </Table>
 </Database>

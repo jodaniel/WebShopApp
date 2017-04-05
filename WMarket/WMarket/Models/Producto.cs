@@ -68,13 +68,14 @@ namespace WMarket.Models
 
         public Producto() { }
 
-        public Producto(int nId, int nId_Proveedor, String nNombre, String nDescripcion, String nMarca, int nCantidad)
+        public Producto(int nId, int nId_Proveedor, String nNombre, String nDescripcion, String nMarca, String nPrecio, int nCantidad)
         {
             this.Id = nId;
             this.Id_Proveedor = nId_Proveedor;
             this.Nombre = nNombre;
             this.Descripcion = nDescripcion;
             this.Marca = nMarca;
+            this.Precio = nPrecio;
             this.Cantidad = nCantidad;
         }
 

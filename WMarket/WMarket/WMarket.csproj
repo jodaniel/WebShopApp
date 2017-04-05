@@ -292,6 +292,8 @@
       <Generator>DevartLinqToSqlGenerator</Generator>
       <LastGenOutput>WebMarket.Designer.cs</LastGenOutput>
     </Content>
+    <Content Include="Views\Shop\Admin.cshtml" />
+    <Content Include="Views\Shop\Detalles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
