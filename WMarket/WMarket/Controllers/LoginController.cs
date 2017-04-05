@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using Neo4jClient;
 using WMarket.Models;
 using System.Web.UI;
-
 namespace WMarket.Controllers
 {
     public class LoginController : Controller
