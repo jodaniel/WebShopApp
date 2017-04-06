@@ -294,6 +294,7 @@
     </Content>
     <Content Include="Views\Shop\Admin.cshtml" />
     <Content Include="Views\Shop\Detalles.cshtml" />
+    <Content Include="Views\Shop\Agregar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

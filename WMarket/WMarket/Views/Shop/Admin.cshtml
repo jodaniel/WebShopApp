@@ -1,11 +1,12 @@
-﻿@{
+﻿@using WMarket.Models
+@{
     ViewBag.Title = "Admin";
+    List<Producto> listaProd = ViewData["ListaProductos"] as List<Producto>;
+    Usuario nUser = ViewData["Usuario"] as Usuario;
 }
 
-@model Tuple<List<WMarket.Models.Producto>, WMarket.Models.Usuario>
-
 <h2>Tienda en Linea!</h2>
-<h4>Bienvenido @Model.Item2.NombreCompleto</h4>
+<h4>Bienvenido @nUser.NombreCompleto</h4>
 
 <div id="Opciones">
     @{
@@ -21,7 +22,7 @@
 </div>
 
 <div id="Productos">
-    @foreach (var item in Model.Item1)
+    @foreach (var item in listaProd)
     {
        
             using (Html.BeginForm("Detalles", "Shop", FormMethod.Post))
@@ -29,7 +30,7 @@
                 <label>@item.Nombre</label><br />
                 <label>Cantidad: @item.Cantidad</label> <br />
                 <form method="POST">
-                    <input type="submit" value="Detalles" />
+                   
                 </form>
             }
         }

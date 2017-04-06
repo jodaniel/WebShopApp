@@ -8,7 +8,7 @@ namespace WMarket.Models
     public class Producto
     {
         #region Atributos
-
+        public static int nextId = 1;
         int id;
         int id_proveedor;
         String nombre;
@@ -16,6 +16,7 @@ namespace WMarket.Models
         String marca;
         String precio;
         int cantidad;
+        int usuario_creador;
 
         #endregion
 
@@ -62,21 +63,26 @@ namespace WMarket.Models
             get { return this.cantidad; }
             set { this.cantidad = value; }
         }
+
+        public int Usuario_Creador
+        {
+            get { return this.usuario_creador; }
+            set { this.usuario_creador = value; }
+        }
         #endregion
 
         #region Constructor & Destructor
 
         public Producto() { }
 
-        public Producto(int nId, int nId_Proveedor, String nNombre, String nDescripcion, String nMarca, String nPrecio, int nCantidad)
+        public Producto(int nId, int nId_Proveedor, String nNombre, String nDescripcion, String nMarca, String nPrecio, int nCantidad, int nUsuario_Creador)
         {
-            this.Id = nId;
-            this.Id_Proveedor = nId_Proveedor;
-            this.Nombre = nNombre;
-            this.Descripcion = nDescripcion;
-            this.Marca = nMarca;
-            this.Precio = nPrecio;
-            this.Cantidad = nCantidad;
+            Id_Proveedor = nId_Proveedor;
+            Nombre = nNombre;
+            Descripcion = nDescripcion;
+            Marca = nMarca;
+            Precio = nPrecio;
+            Cantidad = nCantidad;
         }
 
 

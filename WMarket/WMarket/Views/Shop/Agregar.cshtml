@@ -1,0 +1,33 @@
+﻿@using WMarket.Models
+@{
+    ViewBag.Title = "Agregar";
+    WMarket.Models.Usuario aUser = ViewData["User"] as WMarket.Models.Usuario;
+}
+
+@model WMarket.Models.Producto
+
+<h2>Agregar producto nuevo</h2>
+
+@{
+
+    using (Html.BeginForm("AgregaProducto", "Shop", FormMethod.Post))
+    {
+        <h2>Registro</h2>
+        <form method="POST">
+            <label>Nombre Producto: </label>
+            @Html.TextBoxFor(m => m.Nombre)<br />
+            <label>Marca:</label>
+            @Html.TextBoxFor(m => m.Marca)<br />
+            <label>Descripcion</label>
+            @Html.TextAreaFor(m => m.Descripcion)<br />
+            <label>Precio</label>
+            @Html.TextBoxFor(m => m.Precio)<br />
+            <label>Cantidad</label>
+            @Html.TextBoxFor(m => m.Cantidad) <br />
+
+            <br />
+            <input id="btnAgregar" type="submit" value="Agregar" />
+        </form>
+    }
+}
+
