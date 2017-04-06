@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace WMarket.Controllers
 {
-    public class ControladorCar : Controller
+    public class CarController : Controller
     {
         public ActionResult Index()
         {
@@ -18,10 +18,10 @@ namespace WMarket.Controllers
 
         public ActionResult Create()
         {
-            return View(new CarritoCompras()); 
+            return View(new Carrito()); 
         }
 
-        public ActionResult Create(CarritoCompras producto)
+        public ActionResult Create(Carrito producto)
         {
             try {
                 //guardar producto
@@ -36,14 +36,14 @@ namespace WMarket.Controllers
         }
 
 
-        private List<CarritoCompras> consultarProductos()
+        private List<Carrito> consultarProductos()
         {
-            var ProductosCar = Session ["Productos"] as List<CarritoCompras>;
+            var ProductosCar = Session ["Productos"] as List<Carrito>;
             
             if (ProductosCar == null)
             {
-                ProductosCar = new List<CarritoCompras>();
-                Session["Productos"] = new List<CarritoCompras>();
+                ProductosCar = new List<Carrito>();
+                Session["Productos"] = new List<Carrito>();
             }
             return ProductosCar;
         }

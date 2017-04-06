@@ -6,10 +6,10 @@ using System.Web;
 namespace WMarket.Models
 {
     [Serializable]
-    public class CarritoCompras
+    public class Carrito
     {
         public int Id { get; set; }
         public decimal Precio { get; set; }
-        public decimal Cantidad { get; set; }
+        public int Cantidad { get; set; }
     }
 }

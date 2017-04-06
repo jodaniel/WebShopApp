@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WMarket.Models;
-using WebmarketContext;
 using Neo4jClient;
 using MySql.Data.MySqlClient;
 
@@ -15,25 +14,38 @@ namespace WMarket.Controllers
         // GET: Shop
         public ActionResult Index(Usuario nUser)
         {
-            WebmarketDataContext context = new WebmarketDataContext();
             List<Models.Producto> listaProductos = new List<Models.Producto>();
-
-            var prods = from pdt in context.Productos
-                        where pdt.Cantidad > 0
-                        select pdt;
-
-            foreach (var prod in prods)
+            String myConnectionString = "server=127.0.0.1;port=3306;database=webmarket;uid=shop;pwd=shop123;";
+            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            try
             {
-                Models.Producto producto = new Models.Producto(prod.Id, prod.IdProveedor, prod.Nombre, prod.Descripcion, prod.Marca, prod.Precio, prod.Cantidad, prod.UsuarioCreador);
-                listaProductos.Add(producto);
+                cnn.Open();
+                String nQuery = "SELECT * FROM webmarket.producto WHERE webmarket.producto.cantidad > 0;";
+                MySqlCommand nCommand = new MySqlCommand(nQuery, cnn);
+                MySqlDataReader nReader = nCommand.ExecuteReader();
+                
+                if(nReader.HasRows)
+                {
+                    while(nReader.Read())
+                    {
+                        Models.Producto producto = new Models.Producto(Convert.ToInt32(nReader["Id"]), Convert.ToInt32(nReader["IdProveedor"]), nReader["Nombre"].ToString(), nReader["Descripcion"].ToString(), nReader["Marca"].ToString(), nReader["Precio"].ToString(), Convert.ToInt32(nReader["Cantidad"]), Convert.ToInt32(nReader["UsuarioCreador"]));
+                        listaProductos.Add(producto);
 
-                producto = null;
+                        producto = null;
+                    }
+                }
+
+                
+
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
 
             }
 
             ViewData["ListaProductos"] = listaProductos;
             ViewData["Usuario"] = nUser;
-            //Tuple<List<Models.Producto>, Usuario> tuplaVista = new Tuple<List<Models.Producto>, Usuario>(listaProductos, nUser);
 
             return View();
         }
@@ -41,23 +53,33 @@ namespace WMarket.Controllers
         public ActionResult Admin(Usuario nUser)
         {
 
-            WebmarketDataContext context = new WebmarketDataContext();
             List<Models.Producto> listaProductos = new List<Models.Producto>();
-
-            var prods = from p in context.Productos
-                        where p.UsuarioCreador == nUser.Id
-                        select p;
-
-            foreach (var prod in prods)
+            String myConnectionString = "server=127.0.0.1;port=3306;database=webmarket;uid=shop;pwd=shop123;";
+            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            try
             {
-                Models.Producto producto = new Models.Producto(prod.Id, prod.IdProveedor, prod.Nombre, prod.Descripcion, prod.Marca, prod.Precio, prod.Cantidad, prod.UsuarioCreador);
-                listaProductos.Add(producto);
+                cnn.Open();
+                String nQuery = "SELECT * FROM webmarket.producto WHERE webmarket.producto.usuario_creador = " + nUser.Id + ";";
+                MySqlCommand nCommand = new MySqlCommand(nQuery, cnn);
+                MySqlDataReader nReader = nCommand.ExecuteReader();
 
-                producto = null;
+                if (nReader.HasRows)
+                {
+                    while (nReader.Read())
+                    {
+                        Models.Producto producto = new Models.Producto(Convert.ToInt32(nReader["Id"]), Convert.ToInt32(nReader["IdProveedor"]), nReader["Nombre"].ToString(), nReader["Descripcion"].ToString(), nReader["Marca"].ToString(), nReader["Precio"].ToString(), Convert.ToInt32(nReader["Cantidad"]), Convert.ToInt32(nReader["UsuarioCreador"]));
+                        listaProductos.Add(producto);
 
+                        producto = null;
+                    }
+                }
+
+                ViewData["ListaProductos"] = listaProductos;
+                ViewData["Usuario"] = nUser;
+                cnn.Close();
             }
-            ViewData["ListaProductos"] = listaProductos;
-            ViewData["Usuario"] = nUser;
+            catch(Exception ex)
+            { }
             //Tuple<List<Models.Producto>, Usuario> tuplaVista = new Tuple<List<Models.Producto>, Usuario>(listaProductos, nUser);
 
             return View();
@@ -72,14 +94,34 @@ namespace WMarket.Controllers
         
         public ActionResult DetallesProd(Models.Producto pId)
         {
-            WebmarketDataContext context = new WebmarketDataContext();
+            Models.Producto producto = new Producto();
+            String myConnectionString = "server=127.0.0.1;port=3306;database=webmarket;uid=shop;pwd=shop123;";
+            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            try
+            {
+                cnn.Open();
+                String nQuery = "SELECT * FROM webmarket.producto WHERE webmarket.producto.id = " + pId.Id + ";";
+                MySqlCommand nCommand = new MySqlCommand(nQuery, cnn);
+                MySqlDataReader nReader = nCommand.ExecuteReader();
+                
+                if (nReader.HasRows)
+                {
+                    while (nReader.Read())
+                    {
+                        producto = new Models.Producto(Convert.ToInt32(nReader["Id"]), Convert.ToInt32(nReader["IdProveedor"]), nReader["Nombre"].ToString(), nReader["Descripcion"].ToString(), nReader["Marca"].ToString(), nReader["Precio"].ToString(), Convert.ToInt32(nReader["Cantidad"]), Convert.ToInt32(nReader["UsuarioCreador"]));
+                    }
+                }
 
-            var nProd = (from p in context.Productos
-                        where p.Id == pId.Id
-                        select p).First();
-            Models.Producto rProd = new Models.Producto(nProd.Id, nProd.IdProveedor, nProd.Nombre, nProd.Descripcion, nProd.Marca, nProd.Precio, nProd.Cantidad, nProd.UsuarioCreador);
+                cnn.Close();
+                return RedirectToAction("Detalles", "Shop", producto);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Detalles", "Shop");
+            }
             
-            return RedirectToAction("Detalles", "Shop", rProd);
+            
+            
         }
 
         [HttpPost]
@@ -101,7 +143,7 @@ namespace WMarket.Controllers
 
             nProd.Usuario_Creador = userResult.First().Id;
 
-            string myConnectionString = "server=127.0.0.1;port=3307;database=webmarket;uid=shop;pwd=shop123;";
+            string myConnectionString = "server=127.0.0.1;port=3306;database=webmarket;uid=shop;pwd=shop123;";
             MySqlConnection cnn = new MySqlConnection(myConnectionString);
             try
             {

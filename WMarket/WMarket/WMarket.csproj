@@ -221,14 +221,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Controllers\ControladorCar.cs" />
+    <Compile Include="Controllers\CarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CarritoCompras.cs" />
+    <Compile Include="Models\Carrito.cs" />
     <Compile Include="Models\Imagenes.cs" />
     <Compile Include="Models\Producto.cs" />
     <Compile Include="Models\Usuario.cs" />
@@ -295,6 +295,7 @@
     <Content Include="Views\Shop\Admin.cshtml" />
     <Content Include="Views\Shop\Detalles.cshtml" />
     <Content Include="Views\Shop\Agregar.cshtml" />
+    <Content Include="Views\Car\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
