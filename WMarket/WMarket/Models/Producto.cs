@@ -17,6 +17,7 @@ namespace WMarket.Models
         String precio;
         int cantidad;
         int usuario_creador;
+        Boolean activo;
 
         #endregion
 
@@ -69,13 +70,19 @@ namespace WMarket.Models
             get { return this.usuario_creador; }
             set { this.usuario_creador = value; }
         }
+
+        public Boolean Activo
+        {
+            get { return this.activo; }
+            set { this.activo = value; }
+        }
         #endregion
 
         #region Constructor & Destructor
 
         public Producto() { }
 
-        public Producto(int nId, int nId_Proveedor, String nNombre, String nDescripcion, String nMarca, String nPrecio, int nCantidad, int nUsuario_Creador)
+        public Producto(int nId, int nId_Proveedor, String nNombre, String nDescripcion, String nMarca, String nPrecio, int nCantidad, int nUsuario_Creador, Boolean nActivo)
         {
             Id_Proveedor = nId_Proveedor;
             Nombre = nNombre;
@@ -83,6 +90,7 @@ namespace WMarket.Models
             Marca = nMarca;
             Precio = nPrecio;
             Cantidad = nCantidad;
+            Activo = nActivo;
         }
 
 

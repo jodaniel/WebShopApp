@@ -67,13 +67,15 @@ namespace WMarket.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Login");
+                        MensajeError mError = new MensajeError("Neo4j", "Contraseña incorrecta.", "Login", "Index");
+                        return RedirectToAction("Index", "Error", mError);
                     }
                       
                 }
                 else 
                 {
-                    return RedirectToAction("Registro", "Login");
+                    MensajeError mError = new MensajeError("Neo4j", "No se pudo comunicar con la base de datos.", "Login", "Registro");
+                    return RedirectToAction("Index", "Error");
                 }
 
                 
