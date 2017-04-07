@@ -45,7 +45,7 @@ namespace WMarket.Controllers
             catch (Exception ex)
             {
                 MensajeError mError = new MensajeError("MySQL", "No se pudo conectar con la base de datos.", "Login", "Index");
-                return RedirectToAction("Error", "Shop", mError);
+                return RedirectToAction("Error", "Login", mError);
             }
 
             
@@ -85,7 +85,7 @@ namespace WMarket.Controllers
             catch(Exception ex)
             {
                 MensajeError mError = new MensajeError("MySQL", "No se pudo comunicar con la base de datos.", "Login", "Index");
-                return RedirectToAction("Error", "Shop", mError);
+                return RedirectToAction("Error", "Login", mError);
             }
             //Tuple<List<Models.Producto>, Usuario> tuplaVista = new Tuple<List<Models.Producto>, Usuario>(listaProductos, nUser);
             
@@ -183,22 +183,66 @@ namespace WMarket.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult DesactivarProducto(Models.Producto nProd)
+        public ActionResult DesactivarProducto(Producto nProd)
         {
-            return View();
+
+            var cliente = new GraphClient(new Uri("http://localhost:7474/db/data"), "neo4j", "test");
+            cliente.Connect();
+
+            var query = cliente.Cypher
+                .Match("(userF:User)")
+                .Where((Usuario userF) => userF.Id == nProd.Usuario_Creador)
+                .Return(userF => userF.As<Usuario>());
+
+            var userResult = query.Results;
+
+            string myConnectionString = "server=127.0.0.1;port=3307;database=webmarket;uid=shop;pwd=shop123;";
+            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            
+            try
+            {
+                cnn.Open();
+
+                if(nProd.Activo == true)
+                {
+                    String nQuery = "UPDATE webmarket.producto SET webmarket.producto.activo = 0 WHERE webmarket.producto.id = " + nProd.Id + ";";
+                    MySqlCommand nCommand = new MySqlCommand(nQuery, cnn);
+                    nCommand.ExecuteNonQuery();
+                }
+                else
+                {
+                    String nQuery = "UPDATE webmarket.producto SET webmarket.producto.activo = 1 WHERE webmarket.producto.id = " + nProd.Id + ";";
+                    MySqlCommand nCommand = new MySqlCommand(nQuery, cnn);
+                    nCommand.ExecuteNonQuery();
+                }
+                
+                
+                cnn.Close();
+
+                
+
+                return RedirectToAction("Admin", "Shop", userResult.First());
+
+            }
+            catch(Exception ex)
+            {
+                MensajeError mError = new MensajeError("Neo4j", "No se pudo comunicar con la base de datos.", "Shop", "Admin");
+                Tuple<MensajeError, Usuario> tuplaDatosError = new Tuple<MensajeError, Usuario>(mError, userResult.First());
+                return RedirectToAction("Error", "Shop", tuplaDatosError);
+            }
+            
         }
 
-        public ActionResult Error(MensajeError mError)
+        public ActionResult Error(Tuple<MensajeError, Usuario> mError)
         {
             ViewData["mError"] = mError;
             return View();
 
         }
 
-        public ActionResult VolverError(MensajeError mError)
+        public ActionResult VolverError(Tuple<MensajeError, Usuario> mError)
         {
-            return RedirectToAction(mError.View, mError.Controller);
+            return RedirectToAction(mError.Item1.View, mError.Item1.Controller, mError.Item2);
         }
     }
 }

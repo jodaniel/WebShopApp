@@ -1,11 +1,11 @@
 ﻿@using WMarket.Models
 @{
     ViewBag.Title = "Error";
-    MensajeError mError = ViewData["mError"] as MensajeError;
+    Tuple<MensajeError,Usuario> mError = ViewData["mError"] as Tuple<MensajeError, Usuario>;
 }
 <div id="Error">
-    <h2>Error: @mError.Database</h2>
-    <h4>Mensaje: @mError.Mensaje</h4>
+    <h2>Error: @mError.Item1.Database</h2>
+    <h4>Mensaje: @mError.Item1.Mensaje</h4>
 
     @using (Html.BeginForm("VolverError", "Shop", FormMethod.Post))
     {
