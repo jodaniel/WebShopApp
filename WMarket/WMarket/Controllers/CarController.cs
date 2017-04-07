@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using StackExchange.Redis;
+
 
 namespace WMarket.Controllers
 {
@@ -11,42 +13,63 @@ namespace WMarket.Controllers
     {
         public ActionResult Index()
         {
-            var ProductosCar = consultarProductos();
+            var productos = consultarProductos();
 
-            return View(ProductosCar); 
+            //Ejemplo temporal
+            var pro1 = new ProCarrito();
+            pro1.Id_prod = 999;
+            pro1.Id_cli = 34;
+            pro1.Nombre = "Laptop";
+            pro1.Cantidad = 2;
+            pro1.Precio = 100;
+            pro1.Modo = 1;
+
+            productos.Add(pro1);
+
+
+
+            return View(productos);
         }
 
-        public ActionResult Create()
+        public ActionResult create(int id_prod, int id_cli, String nombre, decimal precio,
+        int cantidad, int modo)
         {
-            return View(new Carrito()); 
-        }
+            var product = new ProCarrito();
+            product.Id_prod = id_prod;
+            product.Id_cli = id_cli;
+            product.Nombre = nombre;
+            product.Precio = precio;
+            product.Cantidad = cantidad;
+            product.Modo = modo;
 
-        public ActionResult Create(Carrito producto)
-        {
-            try {
+            try
+            {
                 //guardar producto
-                var product = consultarProductos();
-                product.Add(producto);
-                Session["Productos"] = product;
+                var productos = consultarProductos();
+                productos.Add(product);
+                Session["Productos"] = productos;
                 return RedirectToAction("Index");
             }
-            catch {
+            catch
+            {
                 return View();
             }
         }
 
 
-        private List<Carrito> consultarProductos()
+        private List<ProCarrito> consultarProductos()
         {
-            var ProductosCar = Session ["Productos"] as List<Carrito>;
-            
-            if (ProductosCar == null)
+            var productos = Session["Productos"] as List<ProCarrito>;
+
+            if (productos == null)
             {
-                ProductosCar = new List<Carrito>();
-                Session["Productos"] = new List<Carrito>();
+                productos = new List<ProCarrito>();
+                Session["Productos"] = new List<ProCarrito>();
             }
-            return ProductosCar;
+            return productos;
         }
-    
+
     }
 }
+
+

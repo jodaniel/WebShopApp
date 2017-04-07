@@ -22,16 +22,16 @@ namespace WMarket.Models
 
             var id = UploadFile(fs); //Funcion para subir
 
-            //DownloadFile(fs, id);  //funcion para bajar
+            DownloadFile(fs, id);  //funcion para bajar
         }
 
         private static ObjectId UploadFile(GridFSBucket fs)
         {
-            using (var s = File.OpenRead(@"C:\Users\Erick\Downloads\LaptopHP.png"))
+            using (var s = File.OpenRead(@"C:\Users\Erick\Documents\ImagenesURL.txt"))
             {
-                var t = Task.Run<ObjectId>( () => {
-                    return fs.UploadFromStreamAsync("LaptopHP.png", s);
-                });
+                var t = Task.Run<ObjectId> ( () => {
+                    return fs.UploadFromStreamAsync("ImagenesURL.txt", s);
+                } );
 
                 return t.Result;
             }
