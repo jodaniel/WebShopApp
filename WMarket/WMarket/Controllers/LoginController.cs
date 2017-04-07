@@ -20,17 +20,7 @@ namespace WMarket.Controllers
         {
             return View();
         }
-
-        public ActionResult ErrorRegistro()
-        {
-            return View();
-        }
-
-        public ActionResult ErrorLogIn()
-        {
-            return View();
-        }
-
+        
         [HttpPost]
         public ActionResult LogIn (Usuario nUser)
         {
@@ -68,21 +58,22 @@ namespace WMarket.Controllers
                     else
                     {
                         MensajeError mError = new MensajeError("Neo4j", "Contraseña incorrecta.", "Login", "Index");
-                        return RedirectToAction("Index", "Error", mError);
+                        return RedirectToAction("Error", "Login", mError);
                     }
                       
                 }
                 else 
                 {
-                    MensajeError mError = new MensajeError("Neo4j", "No se pudo comunicar con la base de datos.", "Login", "Registro");
-                    return RedirectToAction("Index", "Error");
+                    MensajeError mError = new MensajeError("Neo4j", "No existe el usuario en el sistema.", "Login", "Registro");
+                    return RedirectToAction("Error", "Login", mError);
                 }
 
                 
             }
             catch (Exception e)
             {
-                return RedirectToAction("ErrorLogIn", "Login");
+                MensajeError mError = new MensajeError("Neo4j", "No se pudo comunicar con la base de datos.", "Login", "Index");
+                return RedirectToAction("Error", "Login", mError);
             }
         }
 
@@ -94,25 +85,52 @@ namespace WMarket.Controllers
                 var cliente = new GraphClient(new Uri("http://localhost:7474/db/data"), "neo4j", "test");
                 cliente.Connect();
 
-                cliente.Cypher
-                    .Create("(user:User {nUser})")
-                    .WithParam("nUser", nUser)
-                    .ExecuteWithoutResults();
+                var query = cliente.Cypher
+                    .Match("(userF:User)")
+                    .Where((Usuario userF) => userF.User == nUser.User)
+                    .Return(userF => userF.As<Usuario>());
 
-                HttpCookie aCookie = new HttpCookie("sesionAbierta");
-                aCookie.Value = nUser.User.ToString();
-                aCookie.Expires = DateTime.Now.AddDays(1);
-                Response.Cookies.Add(aCookie);
+                var nResults = query.Results;
 
-                return RedirectToAction("Index", "Login");
+                if (nResults.Count() > 0)
+                {
+                    MensajeError mError = new MensajeError("Neo4j", "El usuario ya está en uso, elija otro.", "Login", "Registro");
+                    return RedirectToAction("Error", "Login", mError);
+                }
+                else
+                {
+                    cliente.Cypher
+                        .Create("(user:User {nUser})")
+                        .WithParam("nUser", nUser)
+                        .ExecuteWithoutResults();
+
+                    HttpCookie aCookie = new HttpCookie("sesionAbierta");
+                    aCookie.Value = nUser.User.ToString();
+                    aCookie.Expires = DateTime.Now.AddDays(1);
+                    Response.Cookies.Add(aCookie);
+
+                    return RedirectToAction("Index", "Login");
+                }
             }
             catch (Exception e)
             {
-                
-                return RedirectToAction("ErrorRegistro", "Login");
+                MensajeError mError = new MensajeError("Neo4j", "No se pudo comunicar con el la base de datos.", "Login", "Index");
+                return RedirectToAction("Error", "Login", mError);
             }
 
 
+        }
+
+        public ActionResult Error(MensajeError mError)
+        {
+            ViewData["mError"] = mError;
+            return View();
+            
+        }
+
+        public ActionResult VolverError(MensajeError mError)
+        {
+            return RedirectToAction(mError.View, mError.Controller);
         }
 
     }

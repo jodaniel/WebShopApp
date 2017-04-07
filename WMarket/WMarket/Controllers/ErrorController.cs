@@ -15,5 +15,10 @@ namespace WMarket.Controllers
             ViewData["mError"] = mError;
             return View();
         }
+        
+        public ActionResult ErrorVolver (MensajeError mError)
+        {
+            return RedirectToAction(mError.View, mError.Controller);
+        }
     }
 }

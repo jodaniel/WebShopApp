@@ -24,6 +24,13 @@
             @Html.TextBoxFor(m => m.Precio)<br />
             <label>Cantidad</label>
             @Html.TextBoxFor(m => m.Cantidad) <br />
+            <label>Producto Activo?</label>
+            @Html.DropDownListFor(m => m.Activo,
+                new List<SelectListItem>
+                {
+                    new SelectListItem {Value = "False", Text = "No" },
+                    new SelectListItem {Value = "True", Text = "Si" }
+                }) <br />
 
             <br />
             <input id="btnAgregar" type="submit" value="Agregar" />

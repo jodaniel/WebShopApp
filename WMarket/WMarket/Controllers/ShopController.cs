@@ -28,7 +28,7 @@ namespace WMarket.Controllers
                 {
                     while(nReader.Read())
                     {
-                        Models.Producto producto = new Models.Producto(Convert.ToInt32(nReader["Id"]), Convert.ToInt32(nReader["Id_Proveedor"]), nReader["Nombre"].ToString(), nReader["Descripcion"].ToString(), nReader["Marca"].ToString(), nReader["Precio"].ToString(), Convert.ToInt32(nReader["Cantidad"]), Convert.ToInt32(nReader["Usuario_Creador"]), Convert.ToBoolean(nReader["Activo"]));
+                        Models.Producto producto = new Models.Producto(Convert.ToInt32(nReader["Id"].ToString()), Convert.ToInt32(nReader["Id_Proveedor"].ToString()), nReader["Nombre"].ToString(), nReader["Descripcion"].ToString(), nReader["Marca"].ToString(), nReader["Precio"].ToString(), Convert.ToInt32(nReader["Cantidad"].ToString()), Convert.ToInt32(nReader["Usuario_Creador"].ToString()), Convert.ToBoolean(Convert.ToInt32(nReader["Activo"].ToString())));
                         listaProductos.Add(producto);
 
                         producto = null;
@@ -36,18 +36,19 @@ namespace WMarket.Controllers
                 }
 
                 
-
+                ViewData["ListaProductos"] = listaProductos;
+                ViewData["Usuario"] = nUser;
                 cnn.Close();
+
+                return View();
             }
             catch (Exception ex)
             {
-
+                MensajeError mError = new MensajeError("MySQL", "No se pudo conectar con la base de datos.", "Login", "Index");
+                return RedirectToAction("Error", "Shop", mError);
             }
 
-            ViewData["ListaProductos"] = listaProductos;
-            ViewData["Usuario"] = nUser;
-
-            return View();
+            
         }
 
         public ActionResult Admin(Usuario nUser)
@@ -67,22 +68,27 @@ namespace WMarket.Controllers
                 {
                     while (nReader.Read())
                     {
-                        Models.Producto producto = new Models.Producto(Convert.ToInt32(nReader["Id"]), Convert.ToInt32(nReader["Id_Proveedor"]), nReader["Nombre"].ToString(), nReader["Descripcion"].ToString(), nReader["Marca"].ToString(), nReader["Precio"].ToString(), Convert.ToInt32(nReader["Cantidad"]), Convert.ToInt32(nReader["Usuario_Creador"]), Convert.ToBoolean(nReader["Activo"]));
+                        Models.Producto producto = new Models.Producto(Convert.ToInt32(nReader["Id"].ToString()), Convert.ToInt32(nReader["Id_Proveedor"].ToString()), nReader["Nombre"].ToString(), nReader["Descripcion"].ToString(), nReader["Marca"].ToString(), nReader["Precio"].ToString(), Convert.ToInt32(nReader["Cantidad"].ToString()), Convert.ToInt32(nReader["Usuario_Creador"].ToString()), Convert.ToBoolean(Convert.ToInt32(nReader["Activo"].ToString())));
                         listaProductos.Add(producto);
 
                         producto = null;
                     }
                 }
 
-                
+                ViewData["ListaProductos"] = listaProductos;
+                ViewData["Usuario"] = nUser;
                 cnn.Close();
+
+                return View();
+                
             }
             catch(Exception ex)
-            { }
+            {
+                MensajeError mError = new MensajeError("MySQL", "No se pudo comunicar con la base de datos.", "Login", "Index");
+                return RedirectToAction("Error", "Shop", mError);
+            }
             //Tuple<List<Models.Producto>, Usuario> tuplaVista = new Tuple<List<Models.Producto>, Usuario>(listaProductos, nUser);
-            ViewData["ListaProductos"] = listaProductos;
-            ViewData["Usuario"] = nUser;
-            return View();
+            
         }
 
         public ActionResult Detalles(Models.Producto rProd)
@@ -108,7 +114,16 @@ namespace WMarket.Controllers
                 {
                     while (nReader.Read())
                     {
-                        producto = new Models.Producto(Convert.ToInt32(nReader["Id"]), Convert.ToInt32(nReader["Id_Proveedor"]), nReader["Nombre"].ToString(), nReader["Descripcion"].ToString(), nReader["Marca"].ToString(), nReader["Precio"].ToString(), Convert.ToInt32(nReader["Cantidad"]), Convert.ToInt32(nReader["Usuario_Creador"]), Convert.ToBoolean(nReader["Activo"]));
+                        producto.Id = Convert.ToInt32(nReader["Id"].ToString());
+                        producto.Id_Proveedor = Convert.ToInt32(nReader["Id_Proveedor"].ToString());
+                        producto.Nombre = nReader["Nombre"].ToString();
+                        producto.Descripcion = nReader["Descripcion"].ToString();
+                        producto.Marca = nReader["Marca"].ToString();
+                        producto.Precio = nReader["Precio"].ToString();
+                        producto.Cantidad = Convert.ToInt32(nReader["Cantidad"].ToString());
+                        producto.Usuario_Creador = Convert.ToInt32(nReader["Usuario_Creador"].ToString());
+                        producto.Activo = Convert.ToBoolean(Convert.ToInt32(nReader["Activo"].ToString()));
+
                     }
                 }
 
@@ -117,7 +132,8 @@ namespace WMarket.Controllers
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Detalles", "Shop");
+                MensajeError mError = new MensajeError("MySQL", "No se pudo conectar con la base de datos.", "Shop", "Index");
+                return RedirectToAction("Error", "Shop", mError);
             }
             
             
@@ -149,15 +165,15 @@ namespace WMarket.Controllers
             {
                 cnn.Open();
                 String nQuery = "INSERT INTO webmarket.producto(id_proveedor, nombre, descripcion, marca, precio, cantidad, usuario_creador, activo)"  + 
-                    "VALUES (" + nProd.Id_Proveedor + ", '" + nProd.Nombre + "', '" + nProd.Descripcion + "', '" + nProd.Marca + "', '" + nProd.Precio + "', " + nProd.Cantidad + ", " + nProd.Usuario_Creador + nProd.Activo + ");";
+                    "VALUES (" + nProd.Id_Proveedor + ", '" + nProd.Nombre + "', '" + nProd.Descripcion + "', '" + nProd.Marca + "', '" + nProd.Precio + "', " + nProd.Cantidad + ", " + nProd.Usuario_Creador +", "+ nProd.Activo + ");";
                 MySqlCommand nCommand = new MySqlCommand(nQuery, cnn);
                 nCommand.ExecuteNonQuery();
                 cnn.Close();
             }
             catch (Exception ex)
             {
-                MensajeError mError = new MensajeError("MySQL", "Error al insertar el producto");
-                return RedirectToAction("Index", "Error", mError);
+                MensajeError mError = new MensajeError("MySQL", "Error al insertar el producto", "Shop", "Agregar");
+                return RedirectToAction("Error", "Shop", mError);
             }
 
             return RedirectToAction("Admin", "Shop", userResult.First());
@@ -165,6 +181,24 @@ namespace WMarket.Controllers
         public ActionResult Agregar()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult DesactivarProducto(Models.Producto nProd)
+        {
+            return View();
+        }
+
+        public ActionResult Error(MensajeError mError)
+        {
+            ViewData["mError"] = mError;
+            return View();
+
+        }
+
+        public ActionResult VolverError(MensajeError mError)
+        {
+            return RedirectToAction(mError.View, mError.Controller);
         }
     }
 }

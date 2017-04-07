@@ -84,6 +84,17 @@ namespace WMarket.Models
 
         public Producto(int nId, int nId_Proveedor, String nNombre, String nDescripcion, String nMarca, String nPrecio, int nCantidad, int nUsuario_Creador, Boolean nActivo)
         {
+            Id = nId;
+            Id_Proveedor = nId_Proveedor;
+            Nombre = nNombre;
+            Descripcion = nDescripcion;
+            Marca = nMarca;
+            Precio = nPrecio;
+            Cantidad = nCantidad;
+            Activo = nActivo;
+        }
+        public Producto(int nId_Proveedor, String nNombre, String nDescripcion, String nMarca, String nPrecio, int nCantidad, int nUsuario_Creador, Boolean nActivo)
+        {
             Id_Proveedor = nId_Proveedor;
             Nombre = nNombre;
             Descripcion = nDescripcion;
