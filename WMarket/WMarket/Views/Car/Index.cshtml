@@ -5,3 +5,31 @@
 
 <h2>Index</h2>
 
+
+
+@using WMarket.Models
+@{
+    ViewBag.Title = "Login";
+}
+
+@model WMarket.Models.Usuario
+
+<h2>Login</h2>
+<br />
+
+@{
+
+    using (Html.BeginForm("LogIn", "Login", FormMethod.Post))
+    {
+
+        <form method="POST">
+            <label>Usuario</label>
+            @Html.TextBoxFor(m => m.User) <br />
+            <label>Contraseña</label>
+            @Html.TextBoxFor(m => m.Contrasena)
+            <br />
+            <a href="/Login/Registro">¿No estás registrado?</a><br />
+            <input id="btnLogIn" type="submit" value="Ingresar" />
+        </form>
+    }
+}
