@@ -2,20 +2,18 @@
 @{
     ViewBag.Title = "Detalle";
     WMarket.Models.Producto rProd = ViewData["ProdDetalles"] as WMarket.Models.Producto;
+    List<WMarket.Models.Comentario> listComms = ViewData["ListaComms"] as List<WMarket.Models.Comentario>;
 }
 
 <h2>Detalle Producto</h2>
 
-<div>
+<div id="detProd" class="container">
     <h4>@rProd.Nombre</h4><br />
     <label>Marca: @rProd.Marca</label><br />
     <label>Descripcion: </label><br />
     <textarea>@rProd.Descripcion</textarea><br />
     <label>Precio: @rProd.Precio</label><br />
     <label>Cantidad: @rProd.Cantidad</label><br />
-
+    @Html.ActionLink("Comentarios", "Comentarios", rProd)
 
 </div>
-
-
-

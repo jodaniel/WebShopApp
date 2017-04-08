@@ -1,0 +1,37 @@
+﻿@using WMarket.Models
+@model Comentario
+@{
+    ViewBag.Title = "Comentarios";
+    List<WMarket.Models.Comentario> lista = ViewData["listaComms"] as List<WMarket.Models.Comentario>;
+    }
+
+<div id="Comments" class="container">
+    <h3>Comentarios</h3>
+    @foreach (var comm in lista)
+    {
+        <div class="col-sm-3">
+            <h5>@comm.Title</h5><br />
+            <textarea readonly>@comm.Detalle</textarea>
+        </div>
+    }
+</div>
+
+@{
+    using (Html.BeginForm("AgregarComentario", "Shop", FormMethod.Post))
+    {
+        <div>
+            <h4>Nuevo</h4>
+            <form method="post">
+                <label>Titulo: </label><br />
+                @Html.TextBoxFor(m => m.Title)<br />
+                <label>Detalle: </label><br />
+                @Html.TextAreaFor(m => m.Detalle)<br /><br />
+                <input type="submit" value="Agregar" />
+
+            </form>
+            
+        </div>
+        }
+    }  
+<br />
+@Html.ActionLink("Volver", "Detalles", Session["producto"] as Producto)     

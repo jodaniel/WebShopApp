@@ -24,13 +24,14 @@
 <div id="Productos">
     @foreach (var item in listaProd)
     {
-       
-            using (Html.BeginForm("Detalles", "Shop", FormMethod.Post))
-            {
+
+        using (Html.BeginForm("Detalles", "Shop", FormMethod.Post))
+        {
+            <div class="col-sm-3">
                 <label>@item.Nombre</label><br />
                 <label>Cantidad: @item.Cantidad</label> <br />
                 <form method="POST">
-                    @{ 
+                    @{
                         if (item.Activo == true)
                         {
                             Tuple<Producto, Usuario> nTupla = new Tuple<Producto, Usuario>(item, nUser);
@@ -42,8 +43,9 @@
                             @Html.ActionLink("Activar Producto", "DesactivarProducto", item)
                         }
                     }
-                   
-</form>
-            }
-        }
+
+                </form>
+            </div>
+                            }
+                        }
 </div>

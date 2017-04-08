@@ -233,6 +233,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Comentario.cs" />
     <Compile Include="Models\ProCarrito.cs" />
     <Compile Include="Models\Imagenes.cs" />
     <Compile Include="Models\MensajeError.cs" />
@@ -303,6 +304,7 @@
     <Content Include="Views\Car\Index.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Shop\Error.cshtml" />
+    <Content Include="Views\Shop\Comentarios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

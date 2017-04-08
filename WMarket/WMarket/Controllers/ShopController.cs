@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using WMarket.Models;
 using Neo4jClient;
 using MySql.Data.MySqlClient;
+using Cassandra;
 
 namespace WMarket.Controllers
 {
@@ -91,21 +92,24 @@ namespace WMarket.Controllers
             
         }
 
-        public ActionResult Detalles(Models.Producto rProd)
+        public ActionResult Detalles(Producto datos)
         {
-            ViewData["ProdDetalles"] = rProd;
+            ViewData["ProdDetalles"] = datos;
 
             return View();
         }
         
         public ActionResult DetallesProd(Models.Producto pId)
         {
+            
             Models.Producto producto = new Producto();
             String myConnectionString = "server=127.0.0.1;port=3307;database=webmarket;uid=shop;pwd=shop123;";
             MySqlConnection cnn = new MySqlConnection(myConnectionString);
             try
             {
                 cnn.Open();
+
+                //MySQL
                 String nQuery = "SELECT * FROM webmarket.producto WHERE webmarket.producto.id = " + pId.Id + ";";
                 MySqlCommand nCommand = new MySqlCommand(nQuery, cnn);
                 MySqlDataReader nReader = nCommand.ExecuteReader();
@@ -128,6 +132,8 @@ namespace WMarket.Controllers
                 }
 
                 cnn.Close();
+                
+
                 return RedirectToAction("Detalles", "Shop", producto);
             }
             catch (Exception ex)
@@ -244,5 +250,73 @@ namespace WMarket.Controllers
         {
             return RedirectToAction(mError.Item1.View, mError.Item1.Controller, mError.Item2);
         }
+
+        public ActionResult Comentarios(Producto nProd)
+        {
+            Cluster cluster = Cluster.Builder().AddContactPoint("127.0.0.1").Build();
+
+            try
+            {
+                ISession session = cluster.Connect("webmarket");
+               
+                //Cassandra
+                Comentario nComment = new Comentario();
+                List<Comentario> listaComments = new List<Comentario>();
+                RowSet resultados = session.Execute("select * from comentarios where productid = " + nProd.Id + " ALLOW FILTERING;");
+
+                foreach (var comment in resultados)
+                {
+                        nComment.Id = Convert.ToInt32(comment["id"]);
+                        nComment.UserId = Convert.ToInt32(comment["userid"]);
+                        nComment.ProductId = Convert.ToInt32(comment["productid"]);
+                        nComment.Title = comment["titulo"].ToString();
+                        nComment.Detalle = comment["detalle"].ToString();
+
+                        listaComments.Add(nComment);
+
+                        nComment = new Comentario();
+                }
+                ViewData["listaComms"] = listaComments;
+                Session["producto"] = nProd;
+                return View();
+                
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Detalles", "Shop", nProd);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AgregarComentario(Comentario comment)
+        {
+            var producto = Session["producto"] as Producto;
+            comment.UserId = producto.Usuario_Creador;
+            comment.ProductId = producto.Id;
+           
+            Cluster cluster = Cluster.Builder().AddContactPoint("127.0.0.1").Build();
+            
+            
+
+            try
+            {
+                
+                ISession session = cluster.Connect("webmarket");
+
+                session.Execute("insert into comentarios(id, userid, productid, titulo, detalle) values(" + Comentario.nextId + "," +
+                    comment.UserId + "," + comment.ProductId + ",'" + comment.Title + "','" + comment.Detalle + "');");
+                Comentario.nextId++;
+                return RedirectToAction("Comentarios", "Shop", producto);
+            }
+            catch
+            {
+                producto.Id = comment.ProductId;
+                return RedirectToAction("Comentarios", "Shop", producto);
+            }
+
+            
+        }
+        
+            
     }
 }
