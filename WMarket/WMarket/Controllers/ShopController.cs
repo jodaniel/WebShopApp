@@ -268,7 +268,7 @@ namespace WMarket.Controllers
                 foreach (var comment in resultados)
                 {
                     nComment.Id = comment["id"].ToString();
-                    nComment.UserId = Convert.ToInt32(comment["userid"]);
+                    nComment.User = comment["user"].ToString();
                     nComment.ProductId = Convert.ToInt32(comment["productid"]);
                     nComment.Title = comment["titulo"].ToString();
                     nComment.Detalle = comment["detalle"].ToString();
@@ -292,7 +292,8 @@ namespace WMarket.Controllers
         public ActionResult AgregarComentario(Comentario comment)
         {
             var producto = Session["producto"] as Producto;
-            comment.UserId = producto.Usuario_Creador;
+            var user = Session["user"] as Usuario;
+            comment.User = user.User;
             comment.ProductId = producto.Id;
            
             Cluster cluster = Cluster.Builder().AddContactPoint("127.0.0.1").Build();
@@ -304,11 +305,11 @@ namespace WMarket.Controllers
                 
                 ISession session = cluster.Connect("webmarket");
 
-                session.Execute("insert into comentarios(id, userid, productid, titulo, detalle) values(now(), " +
-                    comment.UserId + "," + comment.ProductId + ",'" + comment.Title + "','" + comment.Detalle + "');");
+                session.Execute("insert into comentarios(id, user, productid, titulo, detalle) values(now(), '" +
+                    comment.User + "'," + comment.ProductId + ",'" + comment.Title + "','" + comment.Detalle + "');");
                 return RedirectToAction("Comentarios", "Shop", producto);
             }
-            catch
+            catch(Exception ex)
             {
                 producto.Id = comment.ProductId;
                 return RedirectToAction("Comentarios", "Shop", producto);

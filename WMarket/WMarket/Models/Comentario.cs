@@ -10,7 +10,7 @@ namespace WMarket.Models
 
         #region Atributos
         String id;
-        int userid;
+        String user;
         int productid;
         String title;
         String detalle;
@@ -24,10 +24,10 @@ namespace WMarket.Models
             set { this.id = value; }
         }
 
-        public int UserId
+        public String User
         {
-            get { return this.userid; }
-            set { this.userid = value; }
+            get { return this.user; }
+            set { this.user = value; }
         }
 
         public int ProductId
@@ -56,19 +56,19 @@ namespace WMarket.Models
 
         }
 
-        public Comentario(int nUserid, int nProductid, String nTitle, String nDetalle)
+        public Comentario(String nUserid, int nProductid, String nTitle, String nDetalle)
         {
             
-            UserId = nUserid;
+            User = nUserid;
             ProductId = nProductid;
             Title = nTitle;
             Detalle = nDetalle;
         }
 
-        public Comentario(String nId, int nUserid, int nProductid, String nTitle, String nDetalle)
+        public Comentario(String nId, String nUserid, int nProductid, String nTitle, String nDetalle)
         {
             Id = nId;
-            UserId = nUserid;
+            User = nUserid;
             ProductId = nProductid;
             Title = nTitle;
             Detalle = nDetalle;
