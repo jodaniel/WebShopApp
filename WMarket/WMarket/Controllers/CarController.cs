@@ -49,6 +49,13 @@ namespace WMarket.Controllers
             }
         }
 
+        public ActionResult Comprar(Usuario nUser)
+        {
+
+            ViewData["ListaProductos"] = null;
+            return View();
+        }
+
 
         private List<Producto> consultarProductos()
         {
