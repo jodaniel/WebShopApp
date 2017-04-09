@@ -15,7 +15,7 @@ namespace WMarket.Controllers
         {
             var productos = consultarProductos();
 
-            //Ejemplo temporal
+            /*Ejemplo temporal
             var pro1 = new ProCarrito();
             pro1.Id_prod = 999;
             pro1.Id_cli = 34;
@@ -24,23 +24,16 @@ namespace WMarket.Controllers
             pro1.Precio = 100;
             pro1.Modo = 1;
 
-            productos.Add(pro1);
+            productos.Add(pro1);*/
 
 
 
             return View(productos);
         }
 
-        public ActionResult create(int id_prod, int id_cli, String nombre, decimal precio,
-        int cantidad, int modo)
+        public ActionResult create(Producto product)
         {
-            var product = new ProCarrito();
-            product.Id_prod = id_prod;
-            product.Id_cli = id_cli;
-            product.Nombre = nombre;
-            product.Precio = precio;
-            product.Cantidad = cantidad;
-            product.Modo = modo;
+            
 
             try
             {
@@ -57,14 +50,14 @@ namespace WMarket.Controllers
         }
 
 
-        private List<ProCarrito> consultarProductos()
+        private List<Producto> consultarProductos()
         {
-            var productos = Session["Productos"] as List<ProCarrito>;
+            var productos = Session["Productos"] as List<Producto>;
 
             if (productos == null)
             {
-                productos = new List<ProCarrito>();
-                Session["Productos"] = new List<ProCarrito>();
+                productos = new List<Producto>();
+                Session["Productos"] = new List<Producto>();
             }
             return productos;
         }

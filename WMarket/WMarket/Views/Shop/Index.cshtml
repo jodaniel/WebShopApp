@@ -22,6 +22,14 @@
                 @Html.ActionLink("Detalles", "DetallesProd", item)
             </form>
             }
+            <br />
+            @using (Html.BeginForm("create", "Car", FormMethod.Post))
+            {
+
+                <form method="POST">
+                    @Html.ActionLink("Agregar Carrito", "create", "Car", item, null)
+                </form>
+            }
         </div>
     
         

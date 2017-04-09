@@ -9,7 +9,7 @@ namespace WMarket.Models
     public class ProCarrito
     {
         public int Id_prod { get; set; }
-        public int Id_cli { get; set; }
+        public String Id_cli { get; set; }
         public String Nombre { get; set; }
         public decimal Precio { get; set; }
         public int Cantidad { get; set; }
