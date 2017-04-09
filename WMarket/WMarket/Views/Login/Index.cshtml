@@ -2,25 +2,26 @@
 @{
     ViewBag.Title = "Login";
 }
-
 @model WMarket.Models.Usuario
-
-<h2>Login</h2>
-<br />
-
-@{
-
-    using (Html.BeginForm("LogIn", "Login", FormMethod.Post))
-    {
-
-<form method="POST">
-    <label>Usuario</label>
-    @Html.TextBoxFor(m => m.User) <br />
-    <label>Contraseña</label>
-    @Html.TextBoxFor(m => m.Contrasena)
+<div class="container" style="align-content;">
+    <h2 style="float:inherit">Login</h2>
     <br />
-    <a href="/Login/Registro">¿No estás registrado?</a><br />
-    <input id="btnLogIn" type="submit" value="Ingresar" />
-</form>
+
+    @{
+
+        using (Html.BeginForm("LogIn", "Login", FormMethod.Post))
+        {
+            <div class="col">
+                <form method="POST">
+                    <label>Usuario</label><br />
+                    @Html.TextBoxFor(m => m.User) <br />
+                    <label>Contraseña</label><br />
+                    @Html.PasswordFor(m => m.Contrasena)
+                    <br /><br />
+                    <a style="float:left" href="/Login/Registro">¿No estás registrado?</a><br /><br />
+                    <input style="float:left" id="btnLogIn" type="submit" value="Ingresar" />
+                </form>
+            </div>
         }
     }
+</div>

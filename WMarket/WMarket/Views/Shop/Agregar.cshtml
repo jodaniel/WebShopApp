@@ -5,36 +5,37 @@
 }
 
 @model WMarket.Models.Producto
+<div class="container">
+    <h2>Agregar producto nuevo</h2>
 
-<h2>Agregar producto nuevo</h2>
+    @{
 
-@{
-
-    using (Html.BeginForm("AgregaProducto", "Shop", FormMethod.Post))
-    {
-        <h2>Registro</h2>
-        <form method="POST">
-            <label>Nombre Producto: </label>
-            @Html.TextBoxFor(m => m.Nombre)<br />
-            <label>Marca:</label>
-            @Html.TextBoxFor(m => m.Marca)<br />
-            <label>Descripcion</label>
-            @Html.TextAreaFor(m => m.Descripcion)<br />
-            <label>Precio</label>
-            @Html.TextBoxFor(m => m.Precio)<br />
-            <label>Cantidad</label>
-            @Html.TextBoxFor(m => m.Cantidad) <br />
-            <label>Producto Activo?</label>
-            @Html.DropDownListFor(m => m.Activo,
+        using (Html.BeginForm("AgregaProducto", "Shop", FormMethod.Post))
+        {
+            <h2>Registro</h2>
+            <form method="POST">
+                <label>Nombre Producto: </label><br />
+                @Html.TextBoxFor(m => m.Nombre)<br />
+                <label>Marca:</label><br />
+                @Html.TextBoxFor(m => m.Marca)<br />
+                <label>Descripcion</label><br />
+                @Html.TextAreaFor(m => m.Descripcion)<br />
+                <label>Precio</label><br />
+                @Html.TextBoxFor(m => m.Precio)<br />
+                <label>Cantidad</label><br />
+                @Html.TextBoxFor(m => m.Cantidad) <br />
+                <label>Producto Activo?</label><br />
+                @Html.DropDownListFor(m => m.Activo,
                 new List<SelectListItem>
                 {
                     new SelectListItem {Value = "False", Text = "No" },
                     new SelectListItem {Value = "True", Text = "Si" }
                 }) <br />
 
-            <br />
-            <input id="btnAgregar" type="submit" value="Agregar" />
-        </form>
+                <br /><br />
+                <input id="btnAgregar" type="submit" value="Agregar" />
+            </form>
+        }
     }
-}
 
+</div>

@@ -10,16 +10,19 @@
     @foreach (var comm in lista)
     {
         <div class="col-sm-3">
-            <h5>@comm.Title</h5><br />
-            <textarea readonly>@comm.Detalle</textarea>
+            <label>Titulo: </label>
+            <text>@comm.Title</text><br />
+            <label>Comentario: </label><br />
+            <text>@comm.Detalle</text><br /><br />
         </div>
-    }
-</div>
 
+    }<br />
+</div>
+<br /><br /><br />
 @{
     using (Html.BeginForm("AgregarComentario", "Shop", FormMethod.Post))
     {
-        <div>
+        <div class="col-sm-12">
             <h4>Nuevo</h4>
             <form method="post">
                 <label>Titulo: </label><br />
@@ -33,5 +36,5 @@
         </div>
         }
     }  
-<br />
+<br /><br />
 @Html.ActionLink("Volver", "Detalles", Session["producto"] as Producto)     

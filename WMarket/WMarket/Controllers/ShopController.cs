@@ -39,6 +39,7 @@ namespace WMarket.Controllers
                 
                 ViewData["ListaProductos"] = listaProductos;
                 ViewData["Usuario"] = nUser;
+                Session["user"] = nUser;
                 cnn.Close();
 
                 return View();
@@ -266,11 +267,11 @@ namespace WMarket.Controllers
 
                 foreach (var comment in resultados)
                 {
-                        nComment.Id = Convert.ToInt32(comment["id"]);
-                        nComment.UserId = Convert.ToInt32(comment["userid"]);
-                        nComment.ProductId = Convert.ToInt32(comment["productid"]);
-                        nComment.Title = comment["titulo"].ToString();
-                        nComment.Detalle = comment["detalle"].ToString();
+                    nComment.Id = comment["id"].ToString();
+                    nComment.UserId = Convert.ToInt32(comment["userid"]);
+                    nComment.ProductId = Convert.ToInt32(comment["productid"]);
+                    nComment.Title = comment["titulo"].ToString();
+                    nComment.Detalle = comment["detalle"].ToString();
 
                         listaComments.Add(nComment);
 
@@ -303,9 +304,8 @@ namespace WMarket.Controllers
                 
                 ISession session = cluster.Connect("webmarket");
 
-                session.Execute("insert into comentarios(id, userid, productid, titulo, detalle) values(" + Comentario.nextId + "," +
+                session.Execute("insert into comentarios(id, userid, productid, titulo, detalle) values(now(), " +
                     comment.UserId + "," + comment.ProductId + ",'" + comment.Title + "','" + comment.Detalle + "');");
-                Comentario.nextId++;
                 return RedirectToAction("Comentarios", "Shop", producto);
             }
             catch
@@ -315,6 +315,17 @@ namespace WMarket.Controllers
             }
 
             
+        }
+
+        public ActionResult LogOut(Usuario nUser)
+        {
+            if (Request.Cookies["sesionAbierta"] != null)
+            {
+                HttpCookie myCookie = new HttpCookie("sesionAbierta");
+                myCookie.Expires = DateTime.Now.AddDays(-1d);
+                Response.Cookies.Add(myCookie);
+            }
+            return RedirectToAction("Index", "Login");
         }
         
             

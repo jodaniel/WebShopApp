@@ -4,8 +4,8 @@
     MensajeError mError = ViewData["mError"] as MensajeError;
 }
 <div id="Error">
-    <h2>Error: @mError.Database</h2>
-    <h4>Mensaje: @mError.Mensaje</h4>
+    <label>Error</label>
+    <h4>@mError.Mensaje</h4>
 
     @using (Html.BeginForm("VolverError", "Login", FormMethod.Post))
     {

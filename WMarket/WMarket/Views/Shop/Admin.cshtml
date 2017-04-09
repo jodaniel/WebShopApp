@@ -8,7 +8,7 @@
 <h2>Tienda en Linea!</h2>
 <h4>Bienvenido @nUser.NombreCompleto</h4>
 
-<div id="Opciones">
+<div id="Opciones" class="container">
     @{
 
         using (Html.BeginForm("Agregar", "Shop", FormMethod.Post))
@@ -20,8 +20,8 @@
     }
 
 </div>
-
-<div id="Productos">
+<br /><br />
+<div id="Productos" class="container">
     @foreach (var item in listaProd)
     {
 
@@ -49,3 +49,5 @@
                             }
                         }
 </div>
+<br /><br />
+@Html.ActionLink("Salir", "LogOut", Session["user"] as Usuario)

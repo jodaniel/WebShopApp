@@ -13,19 +13,19 @@
     {
         <h2>Registro</h2>
 <form method="POST">
-    <label>Nombre Completo: </label>
+    <label>Nombre Completo: </label><br />
     @Html.TextBoxFor(m => m.NombreCompleto)<br />
-    <label>Usuario</label>
+    <label>Usuario</label><br />
     @Html.TextBoxFor(m => m.User)<br />
-    <label>Contraseña</label>
+    <label>Contraseña</label><br />
     @Html.TextBoxFor(m => m.Contrasena)<br />
-    <label>Teléfono</label>
+    <label>Teléfono</label><br />
     @Html.TextBoxFor(m => m.Telefono)<br />
-    <label>Correo</label>
+    <label>Correo</label><br />
     @Html.TextBoxFor(m => m.Correo) <br />
-    <label>Direccion</label>
-    @Html.TextBoxFor(m => m.Direccion)<br />
-    <label>Tipo de Cuenta</label>
+    <label>Direccion</label><br />
+    @Html.TextAreaFor(m => m.Direccion)<br />
+    <label>Tipo de Cuenta</label><br />
     @Html.DropDownListFor(m => m.Admin,
         new List<SelectListItem>
         {

@@ -9,8 +9,7 @@ namespace WMarket.Models
     {
 
         #region Atributos
-        public static int nextId = 1;
-        int id;
+        String id;
         int userid;
         int productid;
         String title;
@@ -19,7 +18,7 @@ namespace WMarket.Models
         #endregion
 
         #region Propiedades
-        public int Id
+        public String Id
         {
             get { return this.id; }
             set { this.id = value; }
@@ -59,15 +58,14 @@ namespace WMarket.Models
 
         public Comentario(int nUserid, int nProductid, String nTitle, String nDetalle)
         {
-            Id = nextId;
+            
             UserId = nUserid;
             ProductId = nProductid;
             Title = nTitle;
             Detalle = nDetalle;
-            nextId++;
         }
 
-        public Comentario(int nId, int nUserid, int nProductid, String nTitle, String nDetalle)
+        public Comentario(String nId, int nUserid, int nProductid, String nTitle, String nDetalle)
         {
             Id = nId;
             UserId = nUserid;

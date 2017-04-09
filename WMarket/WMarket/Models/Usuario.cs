@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WMarket.Models
 {
-
+    [Serializable]
     public class Usuario
     {
         #region Atributos

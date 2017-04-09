@@ -1,4 +1,4 @@
-﻿
+﻿@using WMarket.Models
 @{
     ViewBag.Title = "Detalle";
     WMarket.Models.Producto rProd = ViewData["ProdDetalles"] as WMarket.Models.Producto;
@@ -8,12 +8,16 @@
 <h2>Detalle Producto</h2>
 
 <div id="detProd" class="container">
-    <h4>@rProd.Nombre</h4><br />
-    <label>Marca: @rProd.Marca</label><br />
-    <label>Descripcion: </label><br />
-    <textarea>@rProd.Descripcion</textarea><br />
-    <label>Precio: @rProd.Precio</label><br />
-    <label>Cantidad: @rProd.Cantidad</label><br />
-    @Html.ActionLink("Comentarios", "Comentarios", rProd)
-
+    <div class="col-sm-12">
+        <h4 style="text-decoration:solid">@rProd.Nombre</h4><br />
+        <label>Marca: </label>@rProd.Marca<br />
+        <label>Descripcion: </label><br />
+        <text>@rProd.Descripcion</text><br /><br />
+        <label>Precio:  </label>@rProd.Precio<br />
+        <label>Cantidad:  </label>@rProd.Cantidad<br /><br />
+        @Html.ActionLink("Comentarios", "Comentarios", rProd)
+    </div>
 </div>
+<br /><br />
+@Html.ActionLink("Volver", "Index", Session["user"] as Usuario)
+     
