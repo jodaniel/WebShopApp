@@ -7,6 +7,7 @@ using WMarket.Models;
 using Neo4jClient;
 using MySql.Data.MySqlClient;
 using Cassandra;
+using System.Threading.Tasks;
 
 namespace WMarket.Controllers
 {
@@ -96,6 +97,7 @@ namespace WMarket.Controllers
         public ActionResult Detalles(Producto datos)
         {
             ViewData["ProdDetalles"] = datos;
+            ViewData["imagen"] = Session["imagen"];
 
             return View();
         }
@@ -133,8 +135,22 @@ namespace WMarket.Controllers
                 }
 
                 cnn.Close();
-                
 
+                ImagenController nImagen = new ImagenController();
+                List<Imagenes> lista = nImagen.GetThePictures();
+                Imagenes fImagen = new Imagenes();
+
+                foreach(var img in lista)
+                {
+                    if(img.codPro == producto.Id)
+                    {
+                        fImagen.codPro = img.codPro;
+                        fImagen.FileName = img.FileName;
+                        fImagen.PictureDataAsString = img.PictureDataAsString;
+                    }
+                }
+
+                Session["imagen"] = fImagen;
                 return RedirectToAction("Detalles", "Shop", producto);
             }
             catch (Exception ex)
@@ -168,6 +184,8 @@ namespace WMarket.Controllers
 
             string myConnectionString = "server=127.0.0.1;port=3307;database=webmarket;uid=shop;pwd=shop123;";
             MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            long lastId = 0;
+
             try
             {
                 cnn.Open();
@@ -175,6 +193,8 @@ namespace WMarket.Controllers
                     "VALUES (" + nProd.Id_Proveedor + ", '" + nProd.Nombre + "', '" + nProd.Descripcion + "', '" + nProd.Marca + "', '" + nProd.Precio + "', " + nProd.Cantidad + ", " + nProd.Usuario_Creador +", "+ nProd.Activo + ");";
                 MySqlCommand nCommand = new MySqlCommand(nQuery, cnn);
                 nCommand.ExecuteNonQuery();
+                lastId = nCommand.LastInsertedId;
+                nProd.Id = Convert.ToInt32(lastId);
                 cnn.Close();
             }
             catch (Exception ex)
@@ -182,8 +202,8 @@ namespace WMarket.Controllers
                 MensajeError mError = new MensajeError("MySQL", "Error al insertar el producto", "Shop", "Agregar");
                 return RedirectToAction("Error", "Shop", mError);
             }
-
-            return RedirectToAction("Admin", "Shop", userResult.First());
+            Session["nProd"] = nProd;
+            return RedirectToAction("AddPicture", "Imagen");
         }
         public ActionResult Agregar()
         {

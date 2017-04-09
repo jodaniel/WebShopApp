@@ -7,6 +7,7 @@ using System.Web;
 
 namespace WMarket.Models
 {
+    [Serializable]
     public class Imagenes
     {
         public ObjectId _id { get; set; }

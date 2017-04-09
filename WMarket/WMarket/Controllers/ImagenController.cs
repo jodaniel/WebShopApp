@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using System.Linq;
+using Neo4jClient;
 
 namespace WMarket.Controllers
 {
@@ -26,8 +27,22 @@ namespace WMarket.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddPicture(HttpPostedFileBase theFile)
+        public ActionResult AgregarImagen(HttpPostedFileBase theFile)
         {
+            HttpCookie nCookie = Request.Cookies["sesionAbierta"];
+            String nUsuario = nCookie.Value.ToString();
+            var cliente = new GraphClient(new Uri("http://localhost:7474/db/data"), "neo4j", "test");
+            cliente.Connect();
+
+            var query = cliente.Cypher
+                .Match("(userF:User)")
+                .Where((Usuario userF) => userF.User == nUsuario)
+                .Return(userF => userF.As<Usuario>());
+
+            var userResult = query.Results;
+
+            var lastId = Session["nProd"] as Producto;
+
             if (theFile.ContentLength > 0)
             {
                 string theFileName = Path.GetFileName(theFile.FileName);
@@ -44,7 +59,7 @@ namespace WMarket.Controllers
                 {
                     FileName = theFileName,
                     PictureDataAsString = thePictureDataAsString,
-                    codPro = 5
+                    codPro = lastId.Id
                 };
                 thePicture._id = ObjectId.GenerateNewId();
 
@@ -58,7 +73,7 @@ namespace WMarket.Controllers
             else
                 ViewBag.Message = "Debe subir una imagen";
 
-            return View();
+            return RedirectToAction("Admin", "Shop", userResult.First());
         }
 
         private bool InsertPictureIntoDatabase(Imagenes thePicture)
@@ -76,7 +91,7 @@ namespace WMarket.Controllers
         }
 
 
-        private List<Imagenes> GetThePictures()
+        public List<Imagenes> GetThePictures()
         {
             var thePictureColleciton = GetPictureCollection();
 

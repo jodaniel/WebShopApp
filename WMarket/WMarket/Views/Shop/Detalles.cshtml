@@ -3,6 +3,7 @@
     ViewBag.Title = "Detalle";
     WMarket.Models.Producto rProd = ViewData["ProdDetalles"] as WMarket.Models.Producto;
     List<WMarket.Models.Comentario> listComms = ViewData["ListaComms"] as List<WMarket.Models.Comentario>;
+    Imagenes nImagen = ViewData["imagen"] as Imagenes;
 }
 
 <h2>Detalle Producto</h2>
@@ -15,6 +16,12 @@
         <text>@rProd.Descripcion</text><br /><br />
         <label>Precio:  </label>@rProd.Precio<br />
         <label>Cantidad:  </label>@rProd.Cantidad<br /><br />
+        <label>Imagen: </label><br />
+       @{
+           
+           String imagen64 = String.Format("data:image/jpeg;base64,{0}", nImagen.PictureDataAsString);
+       } 
+        <img src="@imagen64" alt="@nImagen.FileName" width="200px" height="200px"/><br /><br />
         @Html.ActionLink("Comentarios", "Comentarios", rProd)
     </div>
 </div>
